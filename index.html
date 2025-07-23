@@ -1,0 +1,85 @@
+```html
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>点名网页</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+        }
+        #status {
+            font-size: 20px;
+            margin: 20px;
+        }
+        #names {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+        button {
+            margin: 10px;
+            padding: 10px 20px;
+            font-size: 16px;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+    <h1>点名系统</h1>
+    <div id="status">已点: 0 未点: 30</div>
+    <div id="names"></div>
+
+    <script>
+        const names = [
+            "劉恩瑋", "郭天華", "袁崇高", "石梓竣", "趙文逸",
+            "劉港生", "馬承由", "黃宮康", "郭景榮", "秦馳驍",
+            "況杰威", "劉駿朗", "王浚銓", "張成軒", "鍾子強",
+            "林新豪", "全德文", "朱白文", "吳偉賢", "方潔",
+            "吳澤榮", "麥振威", "林江濱", "黎慧俊", "許智謙",
+            "魏英和", "徐健延", "李澤康", "陳德誠", "溫永倫"
+        ];
+
+        let called = 0;
+        let remaining = names.length;
+        const namesContainer = document.getElementById('names');
+        const status = document.getElementById('status');
+
+        function updateStatus() {
+            status.textContent = `已点: ${called} 未点: ${remaining}`;
+        }
+
+        function reset() {
+            called = 0;
+            remaining = names.length;
+            const buttons = namesContainer.querySelectorAll('button');
+            buttons.forEach(button => {
+                button.style.display = 'inline-block';
+            });
+            updateStatus();
+        }
+
+        names.forEach(name => {
+            const button = document.createElement('button');
+            button.textContent = name;
+            button.onclick = function() {
+                this.style.display = 'none';
+                called++;
+                remaining--;
+                updateStatus();
+                if (remaining === 0) {
+                    setTimeout(reset, 1000); // 延迟1秒重置，便于查看完成状态
+                }
+            };
+            namesContainer.appendChild(button);
+        });
+
+        updateStatus();
+    </script>
+</body>
+</html>
+```
